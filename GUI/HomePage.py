@@ -1,8 +1,10 @@
 import sys
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QLineEdit
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, \
+    QPushButton, QLineEdit
 from PyQt6.QtGui import QFont
+
 
 class DatingAppHomepage(QWidget):
     def __init__(self):
@@ -26,9 +28,3 @@ class DatingAppHomepage(QWidget):
         layout.addWidget(signup_button)
 
         self.setLayout(layout)
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    homepage = DatingAppHomepage()
-    homepage.show()
-    sys.exit(app.exec())

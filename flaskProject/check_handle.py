@@ -18,4 +18,6 @@ def check_password(password):
         return False
     elif check_string_name(password):
         return False
+    elif password[0] != password[0].Upper:
+        return False
     return True
