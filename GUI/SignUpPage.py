@@ -3,7 +3,7 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QLineEdit, QPushButton, QLabel, QVBoxLayout, \
     QWidget
 
-from flaskProject.check_handle import check_string_name
+from functions.check_handle import check_string_name
 
 
 class SignupPage(QWidget):

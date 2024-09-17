@@ -2,11 +2,8 @@ import sys
 
 from PyQt6.QtWidgets import QApplication
 
-import check_handle
-import loginAndSignup
 from GUI.HomePage import DatingAppHomepage
-from GUI.SignUpPage import SignupPage
-from functions import data_handle
+from functions import data_handle, check_handle, loginAndSignup
 
 
 def handle_user_creation():  # פונקציה שמטפלת באופן כללי ביצירת המשתמש
