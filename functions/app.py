@@ -6,14 +6,7 @@ from flask import Flask
 from functions import check_handle, loginAndSignup
 import data_handle
 
-# http://127.0.0.1:5000
 
-app = Flask(__name__)
-
-
-
-
-@app.route('/signup')
 def handle_user_creation():  # פונקציה שמטפלת באופן כללי ביצירת המשתמש
     user_info = loginAndSignup.create_user()
     for i in range(2):
@@ -25,5 +18,3 @@ def handle_user_creation():  # פונקציה שמטפלת באופן כללי �
         print('Error at \'app.py\' line 18 - check phone number function')
     data_handle.add_user_info(user_info[0], user_info[1], user_info[2],
                               user_info[i])
-
-
