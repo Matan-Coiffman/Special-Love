@@ -16,7 +16,7 @@ class DatingAppHomepage(QWidget):
         # Welcome Message
         welcome_label = QLabel('Welcome to My Dating App!')
         welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        welcome_label.setFont(QFont('Arial', 16))  # Make it stand out
+        welcome_label.setFont(QFont('Arial', 20))  # Make it stand out
         layout.addWidget(welcome_label)
 
         # Login/Signup Buttons
