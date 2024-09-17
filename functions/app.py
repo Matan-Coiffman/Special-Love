@@ -4,8 +4,6 @@ from PyQt6.QtWidgets import QApplication
 from flask import Flask
 
 from functions import check_handle, loginAndSignup
-from GUI.HomePage import DatingAppHomepage
-from GUI.SignUpPage import SignupPage
 import data_handle
 
 # http://127.0.0.1:5000

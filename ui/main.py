@@ -17,8 +17,8 @@ if __name__ == '__main__':
     signup_page = SignUpPage(stack)
     login_page = LoginPage(stack)
 
-    stack.addWidget(homepage)    # Index 0
-    stack.addWidget(signup_page) # Index 1
+    stack.addWidget(homepage)  # Index 0
+    stack.addWidget(signup_page)  # Index 1
     stack.addWidget(login_page)  # Index 2
 
     # Show the initial homepage
