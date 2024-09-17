@@ -1,15 +1,28 @@
 from flask import Flask
 
 import check_handle
+import data_handle
+import loginAndSignup
+
+# http://127.0.0.1:5000
 
 app = Flask(__name__)
 
 
 @app.route('/signup')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def handle_user_creation():  # פונקציה שמטפלת באופן כללי ביצירת המשתמש
+    user_info = loginAndSignup.create_user()
+    for i in range(2):
+        if not check_handle.check_string_name(user_info[i]):
+            print('Error at \'app.py\' line 14 - check names  function')
+    if not check_handle.check_password(user_info[2]):
+        print('Error at \'app.py\' line 16 - check password function')
+    if not check_handle.check_phone_number(3):
+        print('Error at \'app.py\' line 18 - check phone number function')
+    data_handle.add_user_info(user_info[0], user_info[1], user_info[2],
+                              user_info[i])
 
 
 if __name__ == '__main__':
-    print(check_handle.check_phone_number('0535208597'))
     app.run()
+    data_handle.test()
