@@ -3,11 +3,10 @@ import sys
 from PyQt6.QtWidgets import QApplication
 
 import check_handle
-import data_handle
 import loginAndSignup
 from GUI.HomePage import DatingAppHomepage
-from GUI.LogInPage import LoginPage
 from GUI.SignUpPage import SignupPage
+from functions import data_handle
 
 
 def handle_user_creation():  # פונקציה שמטפלת באופן כללי ביצירת המשתמש
@@ -26,7 +25,4 @@ def handle_user_creation():  # פונקציה שמטפלת באופן כללי �
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     homepage = DatingAppHomepage()  # Create an instance of the home page
-    homepage.show()
-    SignupPage()
-    LoginPage()
     sys.exit(app.exec())
