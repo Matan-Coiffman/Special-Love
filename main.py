@@ -12,6 +12,5 @@ if __name__ == '__main__':
     signup_page = SignupPage()  # Create an instance of the signup page
     homepage.show()
 
-    Navigation.switch_page(homepage, signup_page)
     sys.exit(app.exec())
 

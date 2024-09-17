@@ -16,14 +16,16 @@ def set_user_phone():
 def set_user_password():
     return input('Enter your password: ')
 
+
 def handle_signup(self):
     if not check_handle.check_string_name(
             self.username.u_name) and check_handle.check_phone_number(
             self.username.u_phone) and check_handle.check_password(
             self.username.u_password):
         print("Error: Invalid")
+    else:
+        print(f"Signup successful!")
 
-    print(f"Signup successful!")
 
 def create_user():
     try:
