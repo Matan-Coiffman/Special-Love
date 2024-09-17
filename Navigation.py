@@ -1,7 +1,5 @@
 from PyQt6.QtWidgets import QPushButton
 
-from flaskProject import check_handle
-
 
 # Function to switch between pages
 def switch_page(current_page, new_page):
