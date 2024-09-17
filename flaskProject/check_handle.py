@@ -14,3 +14,8 @@ def check_phone_number(phone_number):
 def check_password(password):
     if 8 > len(password) < 16:
         return False
+    elif password.isdigit():
+        return False
+    elif check_string_name(password):
+        return False
+    return True
