@@ -49,7 +49,7 @@ class MatchPage(QWidget):
         size = min(pixmap.width(), pixmap.height())  # To make the image square
         circular_pixmap = QPixmap(size, size)
         circular_pixmap.fill(
-            Qt.GlobalColor.transparent)  # Transparent background
+                Qt.GlobalColor.transparent)  # Transparent background
 
         # Create a QPainter to draw the circular image
         painter = QPainter(circular_pixmap)
@@ -81,13 +81,13 @@ class MatchPage(QWidget):
     def accept_profile(self):
         # Logic for accepting the profile
         print("Profile accepted!")
-        # Navigate to next match or perform the next action
+        # 1.add to friends list
+        # 2.Navigate to next match or perform the next action
 
     def reject_profile(self):
         # Logic for rejecting the profile
         print("Profile rejected!")
         # Navigate to next match or perform the next action
-
 
 
 if __name__ == "__main__":
