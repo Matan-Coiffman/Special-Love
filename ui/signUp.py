@@ -20,21 +20,23 @@ class SignUpPage(QWidget):
 
         def create_validated_input(placeholder, validation_function,
                                    echo_mode=None):
-            """Creates a QLineEdit with input validation."""
-            input_field = QLineEdit()
-            input_field.setPlaceholderText(placeholder)
-            if echo_mode:
-                input_field.setEchoMode(echo_mode)
-
-            while not validation_function(input_field.text()):
-                # Provide a specific error message here
-                QMessageBox.information(None, f"{placeholder} Invalid",
-                                        "Try Again.")
+            """Creates a QLineEdit with input validation, allowing the user to cancel."""
+            while True:  # Outer loop to keep prompting until valid input or cancel
                 input_field = QLineEdit()
                 input_field.setPlaceholderText(placeholder)
                 if echo_mode:
                     input_field.setEchoMode(echo_mode)
-            return input_field
+
+                if validation_function(input_field.text()):
+                    return input_field  # Valid input, exit the loop
+
+                # Show error message with options
+                reply = QMessageBox.question(None, f"{placeholder} Invalid",
+                                             "Try Again or Cancel?",
+                                             QMessageBox.StandardButton.Retry | QMessageBox.StandardButton.Cancel)
+
+                if reply == QMessageBox.StandardButton.Cancel:
+                    return None  # User canceled, return None to handle this case later
         # Title
         title_label = QLabel('Sign Up')
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -53,7 +55,7 @@ class SignUpPage(QWidget):
         layout.addWidget(self.last_name_input)
 
         self.password_input = create_validated_input(
-                "Password", check_handle.check_password,
+                "Password", check_handle.is_strong_password(),
                 echo_mode=QLineEdit.EchoMode.Password
         )
         layout.addWidget(self.password_input)

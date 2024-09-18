@@ -11,7 +11,7 @@ def validate_signup(self):
     age = self.age_input.text()
 
     # Validate phone number
-    if not is_valid_phone_number(phone_number):
+    if not check_phone_number(phone_number):
         self.show_message("Invalid Input",
                           "The phone number format is invalid.")
         return
@@ -30,10 +30,6 @@ def validate_signup(self):
     self.show_message("Success", "Signup successful!")
 
 
-def is_valid_phone_number(phone_number):
-    """Check if the phone number is valid."""
-    phone_regex = r"^\+?[\d\s\-]{7,15}$"
-    return re.match(phone_regex, phone_number) is not None
 
 
 def is_strong_password(password):
@@ -66,25 +62,6 @@ def check_string_name(name):
     return True
 
 
-def check_password(password):
-    """Check if the password is valid."""
-    if len(password) < 8:
-        print("Password Must Be At Least 8 Characters Long. Try Again.")
-        return False
-    if not any(char.isupper() for char in password):
-        print(
-            "Password Must Contain At Least One Uppercase Letter. Try Again.")
-        return False
-    if not any(char.islower() for char in password):
-        print(
-            "Password Must Contain At Least One Lowercase Letter. Try Again.")
-        return False
-    if not any(char.isdigit() for char in password):
-        print("Password Must Contain At Least One Digit. Try Again.")
-        return False
-    return True
-
-
 def check_phone_number(phone_number):
     """Check if the phone number is valid."""
     if len(phone_number) != 10:
@@ -108,6 +85,7 @@ def check_gender(gender):
     """Check if the gender is valid."""
     if gender not in ['Male', 'Female', 'Other']:
         print(
-            "Gender Must Be One Of The Following: Male, Female, Other. Try Again.")
+                "Gender Must Be One Of The Following: Male, Female, Other. "
+                "Try Again.")
         return False
     return True

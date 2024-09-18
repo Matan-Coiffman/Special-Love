@@ -1,82 +1,89 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, \
     QLineEdit, QPushButton, QMessageBox, QStackedWidget
-from functions.check_handle import is_valid_phone_number, is_strong_password, check_string_name, check_age
+from PyQt6.QtCore import Qt
+
+from functions import check_handle, loginAndSignup
 from ui.homePage import Homepage
 from ui.login import LoginPage
 from ui.signUp import SignUpPage
 
 
 class SignupWindow(QWidget):
-    def __init__(self):
+    def __init__(self, stack):
         super().__init__()
-
+        self.stack = stack
         # Set window title
         self.setWindowTitle("Signup Form")
 
         # Create layout
         layout = QVBoxLayout()
 
-        # Name label and input
-        self.name_label = QLabel("Name:")
-        layout.addWidget(self.name_label)
-        self.name_input = QLineEdit()
-        self.name_input.setPlaceholderText("Enter your name")
-        layout.addWidget(self.name_input)
+        # Title
+        title_label = QLabel('Sign Up')
+        title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(title_label)
 
-        # Age label and input
-        self.age_label = QLabel("Age:")
-        layout.addWidget(self.age_label)
+        # Input Fields
+        self.first_name_input = QLineEdit()
+        self.first_name_input.setPlaceholderText("First Name")
+        layout.addWidget(self.first_name_input)
+
+        self.last_name_input = QLineEdit()
+        self.last_name_input.setPlaceholderText("Last Name")
+        layout.addWidget(self.last_name_input)
+
+        self.password_input = QLineEdit()
+        self.password_input.setPlaceholderText("Password")
+        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+        layout.addWidget(self.password_input)
+
         self.age_input = QLineEdit()
-        self.age_input.setPlaceholderText("Enter your age")
+        self.age_input.setPlaceholderText("Age")
         layout.addWidget(self.age_input)
 
-        # Phone number label and input
-        self.phone_label = QLabel("Phone Number:")
-        layout.addWidget(self.phone_label)
         self.phone_input = QLineEdit()
-        self.phone_input.setPlaceholderText("Enter your phone number")
+        self.phone_input.setPlaceholderText("Phone Number")
         layout.addWidget(self.phone_input)
-
-        # Password label and input
-        self.password_label = QLabel("Password:")
-        layout.addWidget(self.password_label)
-        self.password_input = QLineEdit()
-        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
-        self.password_input.setPlaceholderText("Enter your password")
-        layout.addWidget(self.password_input)
 
         # Signup button
         self.signup_button = QPushButton("Sign Up")
         self.signup_button.clicked.connect(self.validate_signup)
         layout.addWidget(self.signup_button)
 
+        # Back Button
+        back_button = QPushButton('Back')
+        back_button.clicked.connect(self.go_back)
+        layout.addWidget(back_button)
+
         # Set the layout to the window
         self.setLayout(layout)
 
     def validate_signup(self):
-        """Validate the name, age, phone number, and password inputs."""
-        name = self.name_input.text()
-        age = self.age_input.text()
+        """Validate the phone number and password inputs."""
+        first_name = self.first_name_input.text()
+        last_name = self.last_name_input.text()
         phone_number = self.phone_input.text()
         password = self.password_input.text()
-
-        # Validate name
-        if not check_string_name(name):
-            self.show_message("Invalid Input", "The name format is invalid.")
-            return
+        age = self.age_input.text()
 
         # Validate phone number
-        if not is_valid_phone_number(phone_number):
-            self.show_message("Invalid Input", "The phone number format is invalid.")
+        if not check_handle.check_phone_number(phone_number):
+            self.show_message("Invalid Input",
+                              "The phone number format is invalid.")
             return
 
         # Validate password
-        if not is_strong_password(password):
-            self.show_message("Invalid Input", "Password must be at least 8 characters long and contain both letters and numbers.")
+        if not check_handle.is_strong_password(password):
+            self.show_message("Invalid Input",
+                              "Password must be at least 8 characters long and "
+                              "contain both letters and numbers.")
             return
 
-        # If all validations pass
+        if not check_handle.check_age(age):
+            self.show_message("Age must be a number")
+            return
+
         self.show_message("Success", "Signup successful!")
 
     def show_message(self, title, message):
@@ -85,6 +92,10 @@ class SignupWindow(QWidget):
         msg_box.setWindowTitle(title)
         msg_box.setText(message)
         msg_box.exec()
+
+    def go_back(self):
+        # Navigate back to the homepage
+        self.stack.setCurrentIndex(0)
 
 
 # Main Application
@@ -96,7 +107,7 @@ if __name__ == '__main__':
 
     # Add pages to the stack
     homepage = Homepage(stack)
-    signup_page = SignUpPage(stack)
+    signup_page = SignupWindow(stack)
     login_page = LoginPage(stack)
 
     stack.addWidget(homepage)  # Index 0
