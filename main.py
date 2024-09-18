@@ -2,7 +2,9 @@ import sys
 
 from PyQt6.QtWidgets import QApplication
 
-from GUI.HomePage import DatingAppHomepage
+from ui.homePage import Homepage
+from ui.login import LoginPage
+from ui.signUp import SignUpPage
 from functions import data_handle, check_handle, loginAndSignup
 
 
