@@ -88,7 +88,6 @@ class MatchPage(QWidget):
         print("Profile rejected!")
         # Navigate to next match or perform the next action
 
-    # def profile
 
 
 if __name__ == "__main__":
