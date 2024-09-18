@@ -1,6 +1,10 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, \
+    QLineEdit, QPushButton, QMessageBox, QStackedWidget
 from functions.check_handle import is_valid_phone_number, is_strong_password, check_string_name, check_age
+from ui.homePage import Homepage
+from ui.login import LoginPage
+from ui.signUp import SignUpPage
 
 
 class SignupWindow(QWidget):
@@ -87,9 +91,21 @@ class SignupWindow(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    # Create and show the signup window
-    window = SignupWindow()
-    window.show()
+    # Create the QStackedWidget
+    stack = QStackedWidget()
+
+    # Add pages to the stack
+    homepage = Homepage(stack)
+    signup_page = SignUpPage(stack)
+    login_page = LoginPage(stack)
+
+    stack.addWidget(homepage)  # Index 0
+    stack.addWidget(signup_page)  # Index 1
+    stack.addWidget(login_page)  # Index 2
+
+    # Show the initial homepage
+    stack.setFixedSize(450, 600)
+    stack.show()
 
     # Execute the application
     sys.exit(app.exec())
