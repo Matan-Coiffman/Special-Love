@@ -8,8 +8,8 @@ def check_or_create_csv():
     if not os.path.exists(file_path):
         with open(file_path, mode='w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(['first_name', 'last_name', 'age', 'password',
-                             'phone_number'])
+            writer.writerow(['first_name', 'age', 'password',
+                             'phone_number', 'hobbies', 'interest'])
         print(f"File created: {file_path}")
     else:
         print(f"File exists: {file_path}")
