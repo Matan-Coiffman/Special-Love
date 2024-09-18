@@ -29,13 +29,13 @@ class MatchPage(QWidget):
 
         # Accept and Reject Buttons
         button_layout = QHBoxLayout()
-        accept_button = QPushButton('✔')
-        accept_button.clicked.connect(self.accept_profile)
-        button_layout.addWidget(accept_button)
-
         reject_button = QPushButton('✖')
         reject_button.clicked.connect(self.reject_profile)
         button_layout.addWidget(reject_button)
+
+        accept_button = QPushButton('✔')
+        accept_button.clicked.connect(self.accept_profile)
+        button_layout.addWidget(accept_button)
 
         layout.addLayout(button_layout)
         self.setLayout(layout)
