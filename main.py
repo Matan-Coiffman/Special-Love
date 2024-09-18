@@ -1,25 +1,95 @@
 import sys
-
-from PyQt6.QtWidgets import QApplication
-
-from GUI.HomePage import DatingAppHomepage
-from functions import data_handle, check_handle, loginAndSignup
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from functions.check_handle import is_valid_phone_number, is_strong_password, check_string_name, check_age
 
 
-def handle_user_creation():  # פונקציה שמטפלת באופן כללי ביצירת המשתמש
-    user_info = loginAndSignup.create_user()
-    for i in range(2):
-        if not check_handle.check_string_name(user_info[i]):
-            print('Error at \'app.py\' line 14 - check names  function')
-    if not check_handle.check_password(user_info[2]):
-        print('Error at \'app.py\' line 16 - check password function')
-    if not check_handle.check_phone_number(3):
-        print('Error at \'app.py\' line 18 - check phone number function')
-    data_handle.add_user_info(user_info[0], user_info[1], user_info[2],
-                              user_info[i])
+class SignupWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        # Set window title
+        self.setWindowTitle("Signup Form")
+
+        # Create layout
+        layout = QVBoxLayout()
+
+        # Name label and input
+        self.name_label = QLabel("Name:")
+        layout.addWidget(self.name_label)
+        self.name_input = QLineEdit()
+        self.name_input.setPlaceholderText("Enter your name")
+        layout.addWidget(self.name_input)
+
+        # Age label and input
+        self.age_label = QLabel("Age:")
+        layout.addWidget(self.age_label)
+        self.age_input = QLineEdit()
+        self.age_input.setPlaceholderText("Enter your age")
+        layout.addWidget(self.age_input)
+
+        # Phone number label and input
+        self.phone_label = QLabel("Phone Number:")
+        layout.addWidget(self.phone_label)
+        self.phone_input = QLineEdit()
+        self.phone_input.setPlaceholderText("Enter your phone number")
+        layout.addWidget(self.phone_input)
+
+        # Password label and input
+        self.password_label = QLabel("Password:")
+        layout.addWidget(self.password_label)
+        self.password_input = QLineEdit()
+        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+        self.password_input.setPlaceholderText("Enter your password")
+        layout.addWidget(self.password_input)
+
+        # Signup button
+        self.signup_button = QPushButton("Sign Up")
+        self.signup_button.clicked.connect(self.validate_signup)
+        layout.addWidget(self.signup_button)
+
+        # Set the layout to the window
+        self.setLayout(layout)
+
+    def validate_signup(self):
+        """Validate the name, age, phone number, and password inputs."""
+        name = self.name_input.text()
+        age = self.age_input.text()
+        phone_number = self.phone_input.text()
+        password = self.password_input.text()
+
+        # Validate name
+        if not check_string_name(name):
+            self.show_message("Invalid Input", "The name format is invalid.")
+            return
+
+        # Validate phone number
+        if not is_valid_phone_number(phone_number):
+            self.show_message("Invalid Input", "The phone number format is invalid.")
+            return
+
+        # Validate password
+        if not is_strong_password(password):
+            self.show_message("Invalid Input", "Password must be at least 8 characters long and contain both letters and numbers.")
+            return
+
+        # If all validations pass
+        self.show_message("Success", "Signup successful!")
+
+    def show_message(self, title, message):
+        """Show a message box with the given title and message."""
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.exec()
 
 
+# Main Application
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    homepage = DatingAppHomepage()  # Create an instance of the home page
+
+    # Create and show the signup window
+    window = SignupWindow()
+    window.show()
+
+    # Execute the application
     sys.exit(app.exec())

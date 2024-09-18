@@ -1,11 +1,10 @@
-# signup.py
-
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, \
     QPushButton, QComboBox, QMessageBox
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 
 from functions import check_handle
+
 
 
 class SignUpPage(QWidget):
@@ -18,6 +17,23 @@ class SignUpPage(QWidget):
 
         layout = QVBoxLayout()
 
+        def create_validated_input(placeholder, validation_function,
+                                   echo_mode=None):
+            """Creates a QLineEdit with input validation."""
+            input_field = QLineEdit()
+            input_field.setPlaceholderText(placeholder)
+            if echo_mode:
+                input_field.setEchoMode(echo_mode)
+
+            while not validation_function(input_field.text()):
+                # Provide a specific error message here
+                QMessageBox.information(None, f"{placeholder} Invalid",
+                                        "Try Again.")
+                input_field = QLineEdit()
+                input_field.setPlaceholderText(placeholder)
+                if echo_mode:
+                    input_field.setEchoMode(echo_mode)
+            return input_field
         # Title
         title_label = QLabel('Sign Up')
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -25,35 +41,34 @@ class SignUpPage(QWidget):
         layout.addWidget(title_label)
 
         # Input Fields
-        self.first_name_input = QLineEdit()
-        self.first_name_input.setPlaceholderText('First Name')
-        if not check_handle.check_string_name(self.first_name_input):
-            QMessageBox.information(None, "Name Invalid, Try Again.")
+        self.first_name_input = create_validated_input(
+                "First Name", check_handle.check_string_name
+        )
         layout.addWidget(self.first_name_input)
 
-        self.last_name_input = QLineEdit()
-        self.last_name_input.setPlaceholderText('Last Name')
-        if not check_handle.check_string_name(self.last_name_input):
-            QMessageBox.information(None, "Last Name Invalid, Try Again.")
+        self.last_name_input = create_validated_input(
+                "Last Name", check_handle.check_string_name
+        )
         layout.addWidget(self.last_name_input)
 
-        self.password_input = QLineEdit()
-        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
-        self.password_input.setPlaceholderText('Password')
-        if not check_handle.check_password(self.password_input):
-            QMessageBox.information(None, "Password Invalid, Try Again.")
+        self.password_input = create_validated_input(
+                "Password", check_handle.check_password,
+                echo_mode=QLineEdit.EchoMode.Password
+        )
         layout.addWidget(self.password_input)
 
-        self.age_input = QLineEdit()
-        self.age_input.setPlaceholderText('Age')
+        self.age_input = create_validated_input(
+                "Age", lambda age: check_handle.check_age(age.text())
+        )
         layout.addWidget(self.age_input)
 
         self.gender_input = QComboBox()
         self.gender_input.addItems(['Male', 'Female', 'Other'])
         layout.addWidget(self.gender_input)
 
-        self.phone_number_input = QLineEdit()
-        self.phone_number_input.setPlaceholderText('Phone Number')
+        self.phone_number_input = create_validated_input(
+                "Phone Number", check_handle.check_phone_number
+        )
         layout.addWidget(self.phone_number_input)
 
         # Sign Up Button

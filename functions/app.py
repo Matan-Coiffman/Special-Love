@@ -1,6 +1,6 @@
 import sys
 
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QMessageBox
 from flask import Flask
 
 from functions import check_handle, loginAndSignup
@@ -18,3 +18,11 @@ def handle_user_creation():  # פונקציה שמטפלת באופן כללי �
         print('Error at \'app.py\' line 18 - check phone number function')
     data_handle.add_user_info(user_info[0], user_info[1], user_info[2],
                               user_info[i])
+
+
+def show_message(self, title, message):
+    """Show a message box with the given title and message."""
+    msg_box = QMessageBox()
+    msg_box.setWindowTitle(title)
+    msg_box.setText(message)
+    msg_box.exec()

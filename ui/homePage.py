@@ -3,6 +3,7 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+from functions.check_handle import is_valid_phone_number, is_strong_password
 
 class Homepage(QWidget):
     def __init__(self, stack):
