@@ -49,18 +49,5 @@ def add_user_info(first_name, last_name, age, password, phone_number):
         print(f"User with phone number {phone_number} added successfully.")
 
 
-def get_user_info_by_phone(phone_number):
-    check_or_create_csv()
-
-    with open(file_path, mode='r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if row['phone_number'] == phone_number:
-                return row
-    return None
 
 
-def user_exists(phone_number):
-    """Checks if a user with the given phone number exists in the database."""
-    user_info = get_user_info_by_phone(phone_number)
-    return user_info is not None
