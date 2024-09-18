@@ -1,11 +1,9 @@
 # signup.py
 
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, \
-    QPushButton, QComboBox, QMessageBox
+    QPushButton, QComboBox
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
-
-from functions import check_handle
 
 
 class SignUpPage(QWidget):
@@ -27,21 +25,15 @@ class SignUpPage(QWidget):
         # Input Fields
         self.first_name_input = QLineEdit()
         self.first_name_input.setPlaceholderText('First Name')
-        if not check_handle.check_string_name(self.first_name_input):
-            QMessageBox.information(None, "Name Invalid, Try Again.")
         layout.addWidget(self.first_name_input)
 
         self.last_name_input = QLineEdit()
         self.last_name_input.setPlaceholderText('Last Name')
-        if not check_handle.check_string_name(self.last_name_input):
-            QMessageBox.information(None, "Last Name Invalid, Try Again.")
         layout.addWidget(self.last_name_input)
 
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_input.setPlaceholderText('Password')
-        if not check_handle.check_password(self.password_input):
-            QMessageBox.information(None, "Password Invalid, Try Again.")
         layout.addWidget(self.password_input)
 
         self.age_input = QLineEdit()
