@@ -50,4 +50,8 @@ def validate_signup(user):
 class User:
     name = set_user_name()
     password = set_user_password()
+    age = set_age()
     phone = set_user_phone()
+    hobbies = []
+    interests = []
+

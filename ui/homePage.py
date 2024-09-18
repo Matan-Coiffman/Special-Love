@@ -7,12 +7,12 @@ class Homepage(QWidget):
     def __init__(self, stack):
         super().__init__()
         self.stack = stack
-        self.setWindowTitle('Welcome to My Dating App')
-        self.setGeometry(100, 100, 600, 900)
+        self.setWindowTitle('Welcome to Special Love!')
+        self.setGeometry(200, 200, 600, 900)
 
         layout = QVBoxLayout()
 
-        welcome_label = QLabel('Welcome to My Dating App!')
+        welcome_label = QLabel('Welcome to Special Love!')
         welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         welcome_label.setFont(QFont('Arial', 24))
         layout.addWidget(welcome_label)
