@@ -4,9 +4,6 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 
-from functions import check_handle
-
-
 class LoginPage(QWidget):
     def __init__(self, stack):
         super().__init__()
@@ -25,7 +22,6 @@ class LoginPage(QWidget):
 
         # Input Fields
         self.phone_number_input = QLineEdit()
-        check_handle.check_phone_number(self.phone_number_input)
         self.phone_number_input.setPlaceholderText('Phone Number')
         layout.addWidget(self.phone_number_input)
 
