@@ -7,6 +7,13 @@ from functions.check_handle import add_user_info, check_string_name, check_age, 
     is_strong_password, check_phone_number, user_exists
 
 
+def show_message(title, message):
+    msg_box = QMessageBox()
+    msg_box.setWindowTitle(title)
+    msg_box.setText(message)
+    msg_box.exec()
+
+
 class LoginPage(QWidget):
     def __init__(self, stack):
         super().__init__()
@@ -50,15 +57,9 @@ class LoginPage(QWidget):
 
         # Add the user to the database
         if user_exists(phone_number):
-            self.show_message("Success", "Signup successful!")
+            show_message("Success", "Signup successful!")
         else:
-            self.show_message("Failed", "Create an Account")
-
-    def show_message(self, title, message):
-        msg_box = QMessageBox()
-        msg_box.setWindowTitle(title)
-        msg_box.setText(message)
-        msg_box.exec()
+            show_message("Failed", "Create an Account")
 
     def go_back(self):
         self.stack.setCurrentIndex(0)
