@@ -58,3 +58,9 @@ def get_user_info_by_phone(phone_number):
             if row['phone_number'] == phone_number:
                 return row
     return None
+
+
+def user_exists(phone_number):
+    """Checks if a user with the given phone number exists in the database."""
+    user_info = get_user_info_by_phone(phone_number)
+    return user_info is not None
