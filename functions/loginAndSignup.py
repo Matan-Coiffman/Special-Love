@@ -18,17 +18,6 @@ def set_user_password():
 
 
 #
-# def signup_data_handle():  # פונקציה שמטפלת באופן כללי ביצירת המשתמש
-#     user_info = create_user()
-#     for i in range(2):
-#         if not check_handle.check_string_name(user_info[i]):
-#             print('Error at \'app.py\' line 14 - check names  function')
-#     if not check_handle.is_strong_password(user_info[2]):
-#         print('Error at \'app.py\' line 16 - check password function')
-#     if not check_handle.check_phone_number(3):
-#         print('Error at \'app.py\' line 18 - check phone number function')
-#
-
 def validate_signup(user):
     """Validate the phone number and password inputs."""
     phone_number = user.phone_input.text()

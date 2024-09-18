@@ -26,10 +26,10 @@ def get_user_info_by_phone(phone_number):
     return None
 
 
-def add_user_info(first_name, last_name, age, password, phone_number):
+def add_user_info(first_name, age, password, phone_number):
     check_or_create_csv()
 
     with open(file_path, mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([first_name, last_name, age, password, phone_number])
+        writer.writerow([first_name, age, password, phone_number])
         print(f"User with phone number {phone_number} added successfully.")
