@@ -9,7 +9,7 @@ from ui.login import LoginPage
 from ui.signUp import SignUpPage
 
 
-class SignupWindow(QWidget):
+class Window(QWidget):
     def __init__(self, stack):
         super().__init__()
         self.stack = stack
@@ -18,6 +18,7 @@ class SignupWindow(QWidget):
 
         # Create layout
         layout = QVBoxLayout()
+        signup_page().show()
 
         # Title
         title_label = QLabel('Sign Up')
@@ -47,8 +48,10 @@ class SignupWindow(QWidget):
         layout.addWidget(self.phone_input)
 
         # Signup button
-        self.signup_button = QPushButton("Sign Up")
-        self.signup_button.clicked.connect(self.validate_signup)
+        self.signup_button = QPushButton('Sign Up')
+        self.signup_button = QPushButton(
+            "Sign Up")  # Use self.signup_button here
+        self.signup_button.clicked.connect(self.validate_signup(self))  # Connect to validate_signup
         layout.addWidget(self.signup_button)
 
         # Back Button
@@ -59,34 +62,7 @@ class SignupWindow(QWidget):
         # Set the layout to the window
         self.setLayout(layout)
 
-    def validate_signup(self):
-        """Validate the phone number and password inputs."""
-        first_name = self.first_name_input.text()
-        last_name = self.last_name_input.text()
-        phone_number = self.phone_input.text()
-        password = self.password_input.text()
-        age = self.age_input.text()
-
-        # Validate phone number
-        if not check_handle.check_phone_number(phone_number):
-            self.show_message("Invalid Input",
-                              "The phone number format is invalid.")
-            return
-
-        # Validate password
-        if not check_handle.is_strong_password(password):
-            self.show_message("Invalid Input",
-                              "Password must be at least 8 characters long and "
-                              "contain both letters and numbers.")
-            return
-
-        if not check_handle.check_age(age):
-            self.show_message("Age must be a number")
-            return
-
-        self.show_message("Success", "Signup successful!")
-
-    def show_message(self, title, message):
+    def show_message(User, title, message):
         """Show a message box with the given title and message."""
         msg_box = QMessageBox()
         msg_box.setWindowTitle(title)
@@ -97,8 +73,6 @@ class SignupWindow(QWidget):
         # Navigate back to the homepage
         self.stack.setCurrentIndex(0)
 
-
-# Main Application
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
@@ -107,7 +81,7 @@ if __name__ == '__main__':
 
     # Add pages to the stack
     homepage = Homepage(stack)
-    signup_page = SignupWindow(stack)
+    signup_page = SignUpPage(stack)  # Use SignUpPage
     login_page = LoginPage(stack)
 
     stack.addWidget(homepage)  # Index 0
@@ -116,6 +90,7 @@ if __name__ == '__main__':
 
     # Show the initial homepage
     stack.setFixedSize(450, 600)
+    stack.setCurrentIndex(0)  # Start with the homepage
     stack.show()
 
     # Execute the application
