@@ -8,7 +8,7 @@ class Homepage(QWidget):
         super().__init__()
         self.stack = stack
         self.setWindowTitle('Welcome to Special Love!')
-        self.setGeometry(100, 100, 600, 900)
+        self.setGeometry(200, 200, 600, 900)
 
         layout = QVBoxLayout()
 
