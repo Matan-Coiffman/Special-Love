@@ -33,3 +33,10 @@ def add_user_info(first_name, age, password, phone_number):
         writer = csv.writer(file)
         writer.writerow([first_name, age, password, phone_number])
         print(f"User with phone number {phone_number} added successfully.")
+        
+def get_users_dictionary():
+    # read csv file to a list of dictionaries
+    with open(file_path, 'r') as file:
+        csv_reader = csv.DictReader(file)
+        data = [row for row in csv_reader]
+    return data
