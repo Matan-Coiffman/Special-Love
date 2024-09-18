@@ -21,5 +21,21 @@ def handle_user_creation():  # פונקציה שמטפלת באופן כללי �
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    homepage = DatingAppHomepage()  # Create an instance of the home page
+
+    # Create the QStackedWidget
+    stack = QStackedWidget()
+
+    # Add pages to the stack
+    homepage = Homepage(stack)
+    signup_page = SignUpPage(stack)
+    login_page = LoginPage(stack)
+
+    stack.addWidget(homepage)  # Index 0
+    stack.addWidget(signup_page)  # Index 1
+    stack.addWidget(login_page)  # Index 2
+
+    # Show the initial homepage
+    stack.setFixedSize(450, 600)
+    stack.show()
+
     sys.exit(app.exec())
