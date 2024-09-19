@@ -24,13 +24,11 @@ def validate_signup(user):
     password = user.password_input.text()
     age = user.age_input.text()
 
-    # Validate phone number
     if not check_handle.check_phone_number(phone_number):
         user.show_message("Invalid Input",
                           "The phone number format is invalid.")
         return
 
-    # Validate password
     if not check_handle.is_strong_password(password):
         user.show_message("Invalid Input",
                           "Password must be at least 8 characters long and "

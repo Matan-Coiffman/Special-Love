@@ -1,4 +1,7 @@
+from ui import login
+
 class UserMatcher:
+    currect_user = login.phone_number_input
     def __init__(self, current_user, database):
         """
         Initialize the UserMatcher class.

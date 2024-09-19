@@ -1,11 +1,13 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, \
+    QPushButton, QMessageBox
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
-from functions import check_handle
 from functions.data_handle import get_user_info_by_phone
+from pages import match_page  # Make sure this import path is correct
 
 
 class LoginPage(QWidget):
+
     def __init__(self, stack):
         super().__init__()
         self.stack = stack
@@ -46,11 +48,6 @@ class LoginPage(QWidget):
         phone_number = self.phone_number_input.text()
         password = self.password_input.text()
 
-        # Validate phone number format
-        if not check_handle.check_phone_number(phone_number):
-            self.show_message("Invalid Input", "Phone number must be 10 digits.")
-            return
-
         # Check if user exists in the database
         user_info = get_user_info_by_phone(phone_number)
         if user_info is None:
@@ -64,7 +61,20 @@ class LoginPage(QWidget):
 
         # Successful login
         self.show_message("Success", "Login successful!")
-        print(f"User {user_info['first_name']} {user_info['last_name']} logged in successfully!")
+        print(
+            f"User {user_info['first_name']} {user_info['last_name']} logged in successfully!")
+
+        file_path = 'C://Users//jbt//PycharmProjects//Special-Love//user_info.csv'
+        profiles = match_page.get_users_dictionary(file_path)
+        print('hello')
+
+        # Create and add the MatchPage widget
+        match_page_widget = match_page.MatchPage(self.stack, profiles)
+        if match_page_widget not in self.stack.widgets():
+            self.stack.addWidget(match_page_widget)
+
+        self.stack.setCurrentWidget(match_page_widget)  # Set to the new page
+        self.stack.show()
 
     def go_back(self):
         self.stack.setCurrentIndex(0)

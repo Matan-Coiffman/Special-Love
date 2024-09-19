@@ -3,6 +3,8 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, \
     QHBoxLayout, QStackedWidget, QApplication
 from PyQt6.QtGui import QFont, QPixmap, QPainter, QBrush
 from PyQt6.QtCore import Qt
+import requests
+from io import BytesIO
 import csv
 
 
@@ -13,18 +15,24 @@ def get_users_dictionary(file_path):
             {
                 'name': row['first_name'],
                 'age': row['age'],
-                'bio': f"Interest: {row.get('intrests', 'N/A')}, Hobby: {row.get('hobbies', 'N/A')}, Lifestyle: {row.get(' lifestyle', 'N/A')}", # Notice the space before 'lifestyle'
-                'image_path': 'funny_image.png'
+                'bio': f"Interest: {row.get('intrests', 'N/A')}, Hobby: {row.get('hobbies', 'N/A')}, Lifestyle: {row.get(' lifestyle', 'N/A')}",
+                'image_path': 'https://randomuser.me/api/portraits/men/1.jpg'
             }
             for row in csv_reader
         ]
     return data
 
 
-# Assuming the CSV file has "lifestyle" as the column header
-file_path = '../user_info.csv'
-users_data = get_users_dictionary(file_path)
-
+def get_random_face_image_url():
+    try:
+        response = requests.get('https://randomuser.me/api/')
+        response.raise_for_status()
+        data = response.json()
+        image_url = data['results'][0]['picture']['large']
+        return image_url
+    except Exception as e:
+        print(f"Failed to get image URL: {e}")
+        return 'https://randomuser.me/api/portraits/men/1.jpg'
 
 
 class MatchPage(QWidget):
@@ -40,14 +48,14 @@ class MatchPage(QWidget):
         self.layout = QVBoxLayout()
 
         self.title_label = QLabel(
-                f"Match Profile: {self.profile_data['name']}")
+            f"Match Profile: {self.profile_data['name']}")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.title_label.setFont(QFont('Arial', 20))
         self.layout.addWidget(self.title_label)
 
         self.image_label = QLabel()
         self.layout.addWidget(self.image_label)
-        self.create_circular_profile_image()
+        self.load_random_face_image()
 
         self.name_label = QLabel()
         self.age_label = QLabel()
@@ -66,22 +74,50 @@ class MatchPage(QWidget):
         self.layout.addLayout(button_layout)
         self.setLayout(self.layout)
 
-    def create_circular_profile_image(self):
-        image_path = self.profile_data.get('image_path', 'default_image.png')
-        pixmap = QPixmap(image_path)
+    def load_random_face_image(self):
+        try:
+            image_url = get_random_face_image_url()
+            print(f"Loading image from: {image_url}")
 
-        size = min(pixmap.width(), pixmap.height())
-        circular_pixmap = QPixmap(size, size)
-        circular_pixmap.fill(Qt.GlobalColor.transparent)
+            response = requests.get(image_url)
+            response.raise_for_status()
 
-        painter = QPainter(circular_pixmap)
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        painter.setBrush(QBrush(pixmap))
-        painter.drawEllipse(0, 0, size, size)
-        painter.end()
+            img_data = response.content
+            pixmap = QPixmap()
+            pixmap.loadFromData(img_data)
 
-        self.image_label.setPixmap(circular_pixmap)
-        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            size = min(pixmap.width(), pixmap.height())
+            circular_pixmap = QPixmap(size, size)
+            circular_pixmap.fill(Qt.GlobalColor.transparent)
+
+            painter = QPainter(circular_pixmap)
+            painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+            painter.setBrush(QBrush(pixmap))
+            painter.drawEllipse(0, 0, size, size)
+            painter.end()
+
+            self.image_label.setPixmap(circular_pixmap)
+            self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        except Exception as e:
+            print(f"Failed to load image: {e}")
+            fallback_image_url = 'https://randomuser.me/api/portraits/men/1.jpg'
+            response = requests.get(fallback_image_url)
+            img_data = response.content
+            pixmap = QPixmap()
+            pixmap.loadFromData(img_data)
+
+            size = min(pixmap.width(), pixmap.height())
+            circular_pixmap = QPixmap(size, size)
+            circular_pixmap.fill(Qt.GlobalColor.transparent)
+
+            painter = QPainter(circular_pixmap)
+            painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+            painter.setBrush(QBrush(pixmap))
+            painter.drawEllipse(0, 0, size, size)
+            painter.end()
+
+            self.image_label.setPixmap(circular_pixmap)
 
     def create_profile_info(self):
         self.name_label.setText(f"Name: {self.profile_data['name']}")
@@ -111,8 +147,8 @@ class MatchPage(QWidget):
             self.profile_data = self.profiles[self.current_profile_index]
 
             self.title_label.setText(
-                    f"Match Profile: {self.profile_data['name']}")
-            self.create_circular_profile_image()
+                f"Match Profile: {self.profile_data['name']}")
+            self.load_random_face_image()
             self.name_label.setText(f"Name: {self.profile_data['name']}")
             self.age_label.setText(f"Age: {self.profile_data['age']}")
             self.bio_label.setText(f"Bio: {self.profile_data['bio']}")
@@ -124,22 +160,20 @@ class MatchPage(QWidget):
             self.bio_label.clear()
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-
-    # Load profiles from the CSV file
-    file_path = '../user_info.csv'  # Update with your file path
-    profiles = get_users_dictionary(file_path)
-
-    print(profiles)
-
-    stack = QStackedWidget()
-
-    match_page = MatchPage(stack, profiles)
-
-    stack.addWidget(match_page)
-
-    stack.setCurrentIndex(0)
-    stack.show()
-
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#
+#     # Load profiles from the CSV file
+#     file_path = '../user_info.csv'  # Update with your file path
+#     profiles = get_users_dictionary(file_path)
+#
+#     stack = QStackedWidget()
+#
+#     match_page = MatchPage(stack, profiles)
+#
+#     stack.addWidget(match_page)
+#
+#     stack.setCurrentIndex(0)
+#     stack.show()
+#
+#     sys.exit(app.exec())
