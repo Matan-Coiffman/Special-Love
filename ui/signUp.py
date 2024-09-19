@@ -22,13 +22,10 @@ class SignUpPage(QWidget):
         layout.addWidget(title_label)
 
         # Input fields
-        self.first_name_input = QLineEdit()
-        self.first_name_input.setPlaceholderText("First Name")
-        layout.addWidget(self.first_name_input)
+        self.full_name = QLineEdit()
+        self.full_name.setPlaceholderText("Full Name")
+        layout.addWidget(self.full_name)
 
-        self.last_name_input = QLineEdit()
-        self.last_name_input.setPlaceholderText("Last Name")
-        layout.addWidget(self.last_name_input)
 
         self.age_input = QLineEdit()
         self.age_input.setPlaceholderText("Age")
@@ -57,18 +54,14 @@ class SignUpPage(QWidget):
 
     def validate_signup(self):
         # Get the input values
-        first_name = self.first_name_input.text()
-        last_name = self.last_name_input.text()
+        full_name = self.full_name_input.text()
         age = self.age_input.text()
         password = self.password_input.text()
         phone_number = self.phone_number_input.text()
 
         # Validate the inputs
-        if not check_string_name(first_name):
-            self.show_message("Invalid Input", "First name is invalid.")
-            return
-        if not check_string_name(last_name):
-            self.show_message("Invalid Input", "Last name is invalid.")
+        if not check_string_name(full_name):
+            self.show_message("Invalid Input", "Full name is invalid.")
             return
         if not check_age(age):
             self.show_message("Invalid Input", "Age must be between 18 and 120.")
@@ -81,7 +74,7 @@ class SignUpPage(QWidget):
             return
 
         # Add the user to the database
-        add_user_info(first_name, last_name, age, password, phone_number)
+        add_user_info(full_name, age, password, phone_number)
         self.show_message("Success", "Signup successful!")
 
     def show_message(self, title, message):

@@ -24,3 +24,5 @@
 
 3.	התראות (Notifications):
   • אפשרות לקבל הודעות כשיש בקשת חברות
+
+first_name, age, password, phone_number, image, interests, hobbies, lifestyle
