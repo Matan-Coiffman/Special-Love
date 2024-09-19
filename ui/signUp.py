@@ -53,7 +53,6 @@ class SignUpPage(QWidget):
         self.setLayout(layout)
 
     def validate_signup(self):
-        # Get the input values
         full_name = self.full_name_input.text()
         age = self.age_input.text()
         password = self.password_input.text()
