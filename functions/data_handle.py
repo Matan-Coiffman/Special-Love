@@ -1,7 +1,7 @@
 import os
 import csv
 
-file_path = 'user_info.csv'
+file_path = '../user_info.csv'
 
 
 def check_or_create_csv():

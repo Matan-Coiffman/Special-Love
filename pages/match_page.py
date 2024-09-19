@@ -13,12 +13,17 @@ def get_users_dictionary(file_path):
             {
                 'name': row['first_name'],
                 'age': row['age'],
-                'bio': f"Interest: {row.get('intrests', 'N/A')}, Hobby: {row.get('hobbies', 'N/A')}, Lifestyle: {row.get('lifestyle', 'N/A')}",
+                'bio': f"Interest: {row.get('intrests', 'N/A')}, Hobby: {row.get('hobbies', 'N/A')}, Lifestyle: {row.get(' lifestyle', 'N/A')}", # Notice the space before 'lifestyle'
                 'image_path': 'funny_image.png'
             }
             for row in csv_reader
         ]
     return data
+
+
+# Assuming the CSV file has "lifestyle" as the column header
+file_path = '../user_info.csv'
+users_data = get_users_dictionary(file_path)
 
 
 
@@ -123,7 +128,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     # Load profiles from the CSV file
-    file_path = 'C://Users//jbt//PycharmProjects//special_heart//Special-Love//user_info.csv'  # Update with your file path
+    file_path = '../user_info.csv'  # Update with your file path
     profiles = get_users_dictionary(file_path)
 
     print(profiles)
